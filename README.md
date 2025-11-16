@@ -1,4 +1,4 @@
-# Pokédex By Hortifrut
+# Pokédex for challenge Hortifrut
 
 Un frontend para el challenge de hortifurt By Bruno Euribe.
 
