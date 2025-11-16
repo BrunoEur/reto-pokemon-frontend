@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Pokemon, PokemonListItem, PaginationInfo } from '../types/pokemon';
 import { pokemonService } from '../services/pokemonService';
 
@@ -30,7 +30,17 @@ export const usePokemon = (): UsePokemonReturn => {
     limit: POKEMON_PER_PAGE
   });
 
+  const loadingRef = useRef<{ [key: string]: boolean }>({});
+
   const fetchPokemonList = useCallback(async (page: number, search: string = '') => {
+    const cacheKey = search ? `search:${search}` : `page:${page}`;
+    
+    if (loadingRef.current[cacheKey]) {
+      console.log(`Request  for cache clave : ${cacheKey}`);
+      return;
+    }
+
+    loadingRef.current[cacheKey] = true;
     setLoading(true);
     setError(null);
     
@@ -65,6 +75,7 @@ export const usePokemon = (): UsePokemonReturn => {
       setPokemonList([]);
     } finally {
       setLoading(false);
+      delete loadingRef.current[cacheKey];
     }
   }, []);
 
@@ -75,6 +86,14 @@ export const usePokemon = (): UsePokemonReturn => {
   }, [fetchPokemonList, pagination.totalPages, searchTerm]);
 
   const selectPokemon = useCallback(async (pokemon: PokemonListItem) => {
+    const cacheKey = `detail:${pokemon.id}`;
+    
+    if (loadingRef.current[cacheKey]) {
+      console.log(`Request already in progress for Pokemon: ${pokemon.id}`);
+      return;
+    }
+
+    loadingRef.current[cacheKey] = true;
     setLoading(true);
     setError(null);
     
@@ -85,6 +104,7 @@ export const usePokemon = (): UsePokemonReturn => {
       setError(err instanceof Error ? err.message : 'Error al cargar los detalles del Pokémon');
     } finally {
       setLoading(false);
+      delete loadingRef.current[cacheKey];
     }
   }, []);
 
