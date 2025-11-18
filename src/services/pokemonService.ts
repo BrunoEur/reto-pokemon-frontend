@@ -25,6 +25,7 @@ export const pokemonService = {
         id: offset + index + 1
       }));
       
+      
       cacheService.setPokemonList(limit, offset, data);
       
       return data;
@@ -76,7 +77,6 @@ export const pokemonService = {
         throw new Error(`Error fetching Pokemon with ID ${id}: ${response.status}`);
       }
       const data = await response.json();
-      
       cacheService.setPokemonById(id, data);
       cacheService.setPokemonByName(data.name, data);
       

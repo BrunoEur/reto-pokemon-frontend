@@ -40,9 +40,9 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({ pokemon, onClose }
     };
     return colors[type] || '#68A090';
   };
-
+  const notFoundImg = `https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png`;
   const imageUrl = pokemon.sprites.other?.['official-artwork']?.front_default ||
-    pokemon.sprites.front_default;
+    pokemon.sprites.front_default || notFoundImg;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -63,7 +63,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({ pokemon, onClose }
 
           <div className="pokemon-detail-info">
             <div className="pokemon-types">
-              {pokemon.types.map((typeInfo, index) => (
+              {pokemon.types?.map((typeInfo, index) => (
                 <span
                   key={index}
                   className="pokemon-type"
@@ -92,7 +92,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({ pokemon, onClose }
             <div className="pokemon-abilities">
               <h3>Habilidades</h3>
               <div className="abilities-list">
-                {pokemon.abilities.map((abilityInfo, index) => (
+                {pokemon.abilities?.map((abilityInfo, index) => (
                   <span key={index} className="ability-tag">
                     {formatPokemonName(abilityInfo.ability.name)}
                   </span>

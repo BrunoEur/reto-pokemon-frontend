@@ -8,7 +8,7 @@ interface PokemonCardProps {
 
 export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, onClick }) => {
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
-  const fallbackImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+  const notFoundImg = `https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png`;
 
   const formatPokemonName = (name: string) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -28,7 +28,8 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, onClick }) =>
           className="pokemon-image"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src = fallbackImageUrl;
+            target.src = notFoundImg;
+            target.className = "pokemon-image-not-found"
           }}
           loading="lazy"
         />

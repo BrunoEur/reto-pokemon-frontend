@@ -138,6 +138,14 @@ body {
   object-fit: contain;
   transition: transform 0.3s ease;
 }
+.pokemon-image-not-found {
+  width: 100px;
+  height: 100px;
+  border-radius: 26px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
 
 .pokemon-card:hover .pokemon-image {
   transform: scale(1.1);
