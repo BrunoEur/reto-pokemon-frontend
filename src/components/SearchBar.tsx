@@ -3,13 +3,16 @@ import React from 'react';
 interface SearchBarProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
+   onCleanCache: () => void;
   placeholder?: string;
+ 
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   searchTerm,
   onSearchChange,
-  placeholder = "Buscar Pokémon..."
+   onCleanCache,
+  placeholder = "Buscar Pokémon...",
 }) => {
   return (
     <div className="search-container">
@@ -29,6 +32,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           ✕
         </button>
       )}
+      {!searchTerm && (
+        <button
+          className="clear-search"
+          onClick={() => onCleanCache()}
+        >
+          clean-cache
+        </button>
+      )}
     </div>
+
   );
 };

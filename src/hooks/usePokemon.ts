@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Pokemon, PokemonListItem, PaginationInfo } from '../types/pokemon';
 import { pokemonService } from '../services/pokemonService';
+import { cacheService } from '../services/cacheService';
 
 interface UsePokemonReturn {
   pokemonList: PokemonListItem[];
@@ -13,6 +14,7 @@ interface UsePokemonReturn {
   goToPage: (page: number) => void;
   selectPokemon: (pokemon: PokemonListItem) => void;
   clearSelection: () => void;
+  useCleanCache: () => void;
 }
 
 const POKEMON_PER_PAGE = 20;
@@ -112,6 +114,12 @@ export const usePokemon = (): UsePokemonReturn => {
     setSelectedPokemon(null);
   }, []);
 
+    const useCleanCache = useCallback(async () => {
+      await cacheService.clearAll()
+  }, []);
+
+
+
   const handleSearchChange = useCallback((term: string) => {
     setSearchTerm(term);
     setSelectedPokemon(null);
@@ -143,6 +151,7 @@ export const usePokemon = (): UsePokemonReturn => {
     setSearchTerm: handleSearchChange,
     goToPage,
     selectPokemon,
-    clearSelection
+    clearSelection,
+    useCleanCache
   };
 };

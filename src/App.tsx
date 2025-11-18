@@ -16,7 +16,8 @@ function App() {
     setSearchTerm,
     goToPage,
     selectPokemon,
-    clearSelection
+    clearSelection,
+    useCleanCache
   } = usePokemon();
 
   return (
@@ -29,6 +30,7 @@ function App() {
       <main className="app-main">
         <div className="search-section">
           <SearchBar
+            onCleanCache={useCleanCache}
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
             placeholder="Buscar Pokémon por nombre..."
